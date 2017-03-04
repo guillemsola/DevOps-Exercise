@@ -9,7 +9,7 @@ We have two web projects that both use a common library that we also own. All pr
   - b. What are the pros and cons of linking projects using subtrees or submodules in this context?
 3. What would be your recommendation? Same release cycle for all components or not?
 
-[Solution for the first exercise](Exercise_1,md)
+[Solution for the first exercise](Exercise_1.md)
 
 # Exercise 2
 We have this web application https://github.com/asg123/SocialGoal
