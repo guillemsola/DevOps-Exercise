@@ -53,7 +53,7 @@ I have started from a [template](https://azure.microsoft.com/en-us/resources/tem
 
 The template includes some custom sections to execute powershell scripts to deploy the web application and modify the configuration variables. 
 
-```powershell
+```json
 "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File deployWebApp.ps1 -sqlserver ',variables('sqlPublicIP'))]"
 ```
 
