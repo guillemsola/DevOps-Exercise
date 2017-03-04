@@ -47,6 +47,10 @@ Outputs                 :
 DeploymentDebugLogLevel :
 ```
 
+And in Azure control panel we can confirm that the machines have been created and are running.
+
+[azure panel](resources/22bii-Virtual machines - Microsoft Azure.png)
+
 ## Template Details
 
 I have started from a [template](https://azure.microsoft.com/en-us/resources/templates/iis-2vm-sql-1vm/) that creates two Windows Server 2012R2 VM(s) with IIS configured using DSC. It also installs one SQL Server 2014 standard edition VM, a VNET with two subnets, NSG, load balancer, NATing and probing rules. One of the best things about using modern infrastructure providers is the amount of resources available to start a project from a sample.
