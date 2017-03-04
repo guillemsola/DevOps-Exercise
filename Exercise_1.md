@@ -15,7 +15,7 @@ I personally would choose the [NuGetGallery](https://github.com/NuGet/NuGetGalle
 
 With a proper Nuget package repository installed the next step is to add a push step on the Jenkins pipeline. For this basically what we need is to add a CMD step in jenkins to pack and push to our Nuget repository.
 
-```
+```powershell
 NuGet.exe pack .\src\MySharedLibrary.csproj
 NuGet.exe push .\src\bin\Debug\*.nupkg -apikey $api-key -source http://nuget.sga.com:81/nuget/Default
 ```
