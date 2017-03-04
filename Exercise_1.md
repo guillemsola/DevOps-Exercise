@@ -11,7 +11,7 @@ As one of the three projects that we own is used as a dependency and has an inde
 
 This will be architecture fot the solution
 
-<img src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Exercise1.1.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fguillemsola%2FDevOps-Exercise%2Fmaster%2Fmedia%2FExercise1.1.xml" />
+![solution](media/Exercise1.1.png)
 
 We can install a NuGet.Server that is a package provided by the .NET Foundation that creates an ASP.NET application that can host a package feed on any server that runs IIS. In a nutshell it makes a folder on the server available through HTTP(S) (specifically OData). This option it's best for simple scenarios and [is easy to set up](https://docs.microsoft.com/en-us/nuget/hosting-packages/nuget-server). 
 
