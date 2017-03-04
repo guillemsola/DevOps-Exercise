@@ -9,6 +9,10 @@ If we want to have CI we will need to integrate Jenkins with the SCM of choice w
 
 As one of the three projects that we own is used as a dependency and has an independent life cycle, I will suggest using Nuget, the standard package manager for .NET technologies, to manage them. There are several ways to share Nuget packages, from a shared folder to commercial solution like JFrog Artifactory. Each solution has it's pros and cons concerning costs, simplicity, reliability... Assuming that we don't have another artifact management system like Nexus or Artifactory I will install one of the open source .NET Foundation solutions.
 
+This will be architecture fot the solution
+
+<img src="https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Exercise1.1.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fguillemsola%2FDevOps-Exercise%2Fmaster%2Fmedia%2FExercise1.1.xml" />
+
 We can install a NuGet.Server that is a package provided by the .NET Foundation that creates an ASP.NET application that can host a package feed on any server that runs IIS. In a nutshell it makes a folder on the server available through HTTP(S) (specifically OData). This option it's best for simple scenarios and [is easy to set up](https://docs.microsoft.com/en-us/nuget/hosting-packages/nuget-server). 
 
 I personally would choose the [NuGetGallery](https://github.com/NuGet/NuGetGallery) that is a central dashboard for the packages that we have published within the organization. This tool is [simple to install](https://github.com/NuGet/NuGetGallery#build-and-run-the-gallery-in-arbitrary-number-easy-steps) too and can be used to view package descriptions, versions, maintainers, SMTP alerts... It can be integrated with and LDAP but requires also an SQL server instance.
