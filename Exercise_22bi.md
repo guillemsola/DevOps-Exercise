@@ -1,6 +1,6 @@
 # 2.2.b.i Own Datacenter Option
 
-For this scenario I have chosen VMWare ESXi using the [VMWare PowerCLI cmdlets](https://www.vmware.com/support/developer/PowerCLI/). This technology allows to interact with ESXi servers from the command line which is a good option to automate deployments from a Jenkins pipeline.
+For this scenario I have chosen VMWare ESXi using the [VMWare PowerCLI cmdlets](https://www.vmware.com/support/developer/PowerCLI/). This technology allows to interact with ESXi servers from the command line which is a good option to automate deployments from a Jenkins or any other CI pipeline.
 
 ```powershell
 # Connect
@@ -42,7 +42,7 @@ We can execute a remote powershell script to enable the desired roles like IIS.
 
 ## SQLServer
 
-We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini like this
+We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini covering all the details that we want to set-up.
 
 ```
 ; Microsoft SQL Server Configuration file  
@@ -61,7 +61,7 @@ UpdateEnabled="False"
 SQLSVCSTARTUPTYPE="Automatic"
 ```
 
-After we should execute this on the remote machine to perform the silent installation for the SQLServer
+After we should execute the setup on the remote machine to perform the silent installation of the SQLServer
 
 ```powershell
 .\setup.exe /SQLSVCPASSWORD="passw.1234" /AGTSVCPASSWORD="passw.1234" /ASSVCPASSWORD="passw.1234" /ISSVCPASSWORD="passw.1234" /RSSVCPASSWORD="passw.1234" /IACCEPTSQLSERVERLICENSETERMS /ConfigurationFile=ConfigurationFile.ini
@@ -69,4 +69,4 @@ After we should execute this on the remote machine to perform the silent install
 
 ## Notes
 
-Alternatively we could have used template machines to speed up the deploment process. The above procedure could be adapted to create the base template machines so that those could be recreated if needed.
+Alternatively we could have used template machines to speed up the deploment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed.
