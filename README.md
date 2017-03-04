@@ -16,7 +16,7 @@ We have this web application https://github.com/asg123/SocialGoal
   - a. Describe a base architecture with one database server and two IIS servers, in a infrastructureascode definition
   - b. Using the description in previous point, set up an automatic deployment...
     1. In our own datacenter (e.g. vCenter, or any other tool of your choice)
-    2. In a cloud provider (Amazon, Azure)
+    2. In a cloud provider (Amazon, Azure) [Solution](Exercise_22bii.md)
 
 > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
 
