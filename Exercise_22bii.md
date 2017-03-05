@@ -49,7 +49,7 @@ DeploymentDebugLogLevel :
 
 And in Azure control panel we can confirm that the machines have been created and are running.
 
-[azure panel](resources/22bii-Virtual machines - Microsoft Azure.png)
+![azure panel](resources/22bii-Virtual machines - Microsoft Azure.png){:class="img-responsive"}
 
 ## Template Details
 
