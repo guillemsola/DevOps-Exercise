@@ -1,6 +1,6 @@
 # Jenkins Build
 
-I'm going to setup a simple jenkins build to compile and run the solution tests in order to generate a project artifact from the [Social Goal Github project](https://github.com/asg123/SocialGoal)
+I'm going to setup a simple jenkins build to compile and run the solution tests in order to generate a project artifact from the [Social Goal Github project](https://github.com/asg123/SocialGoal).
 
 ## Setup project
 
@@ -26,11 +26,11 @@ Before being able to build the solution we have to restore the Nuget packages. T
 
 ## Build Solution
 
-With all the solution code and dependencies available we can build the project. First we need to add an MSBuild step
+With all the solution code and dependencies available we can build the project. First we need to add an MSBuild step.
 
 ![Configure MSBuild](media/SocialGoal MSBuild1 [Jenkins].png){:class="img-responsive"}
 
-And configure it to build the solution
+And configure it to build the solution with the proper MSBuild configuration. The configuration has to be set in the Jenkins plugin settings page to use a proper MSBuild executable, in this case I'm using `C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\`.
 
 ![msbuild](media/SocialGoal MSBuild2 [Jenkins].png){:class="img-responsive"}
 
@@ -69,7 +69,6 @@ Runtime Environment
 Test Files
     C:\Users\solas\.jenkins\workspace\SocialGoal\source\SocialGoal.Tests\bin\Debug\SocialGoal.Tests.dll
 
-
 Test Run Summary
   Overall result: Passed
   Test Count: 113, Passed: 113, Failed: 0, Warnings: 0, Inconclusive: 0, Skipped: 0
@@ -87,7 +86,7 @@ Finished: SUCCESS
 
 Once compiled the solution we could be publishing the NUnit tests results to a location so that we can track history for test evolution. For instance we can use [GHPR](https://github.com/GHPReporter/Ghpr.NUnit) to generate an output report like this.
 
-![Report page](GHP Report Run Page.png){:class="img-responsive"}
+![Report page](media/GHP Report Run Page.png){:class="img-responsive"}
 
 We could setup some Github hooks with jenkins so that every time a new commit is done to the project it is automatically integrated. It will be interesting also to add more quality metrics like code static analysis with a tool like [SonarQube](https://www.sonarqube.org/).
 
