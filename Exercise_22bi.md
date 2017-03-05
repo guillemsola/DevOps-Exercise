@@ -30,19 +30,36 @@ Start-VM $machine
 
 ```
 
-This should be put in a loop, together with the configuration files for each machine we want to boot up.
+This should be put in a loop, together with the configuration files for each type of machine we want to create.
 
 ## Webserver machine
 
-We can execute a remote powershell script to enable the desired roles like IIS.
+We can execute a remote powershell script to enable the desired roles like IIS and then deploy the website.
 
 ```powershell
-# TODO
+# Setup remote session
+$ip = (Get-VM -Name $machine).Guest.IPAddress
+$pw = convertto-securestring -AsPlainText -Force -String "passw.1234"
+$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist "Administrator",$pw
+
+# Copy Website files
+$TargetSession = new-pssession -computername $ip -credential $cred
+Copy-Item -ToSession $TargetSession -Path $source -Destination "C:\webApp\" -Recurse
+
+# Install IIS
+Enter-PSSession -ComputerName $ip -Credential $user
+Install-WindowsFeature -Name "Web-Server" -IncludeAllSubFeature -IncludeManagementTools
+
+# Create web site
+Remove-WebSite -Name "Default Web Site"
+Set-ItemProperty IIS:\AppPools\DefaultAppPool\ managedRuntimeVersion ""
+New-Website -Name "ASGWebApp" -Port 80 -PhysicalPath C:\webApp\ -ApplicationPool DefaultAppPool
+iisreset
 ```
 
 ## SQLServer
 
-We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini covering all the details that we want to set-up.
+We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini covering all the details that we want to set-up. We will need to create a remote session as in the web site example but this time to copy the required files and install the SQL server.
 
 ```
 ; Microsoft SQL Server Configuration file  
@@ -69,4 +86,6 @@ After we should execute the setup on the remote machine to perform the silent in
 
 ## Notes
 
-Alternatively we could have used template machines to speed up the deploment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed.
+Alternatively we could have used template machines to speed up the deploment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed. With machines with the OS installed and the IIS or SQL Server pre-installed to whole deployment will be much faster.
+
+I have chosen here the standard powershell tools but other tools for configuration management like Chef will enable many other possibilities to configure particularities on each machine.
