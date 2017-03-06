@@ -22,6 +22,8 @@ We can install a NuGet.Server that is a package provided by the .NET Foundation 
 
 I personally would choose the [NuGetGallery](https://github.com/NuGet/NuGetGallery) that is a central dashboard for the packages that we have published within the organization. This tool is [simple to install](https://github.com/NuGet/NuGetGallery#build-and-run-the-gallery-in-arbitrary-number-easy-steps) too and can be used to view package descriptions, versions, maintainers, SMTP alerts... It can be integrated with and LDAP but requires also an SQL server instance.
 
+[Private Nuget Gallery](media/Private Nuget Gallery.png){:class="img-responsive"}
+
 With a proper Nuget package repository installed the next step is to add a push step on the Jenkins pipeline. For this basically what we need is to add a CMD step in jenkins to pack and push to our Nuget repository.
 
 ```powershell
@@ -44,6 +46,8 @@ As we want to share the same build number across all the three projects we need 
 As this is not an explicit requirement and Jenkins offers also tons of different plugins, whe can use the [Parameterized Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin) to solve this problem within Jenkins itself.
 
 With this plugin for example, by defining ```SOURCE_BUILD_NUMBER=${BUILD_NUMBER}``` we will be able to use the variable ```$SOURCE_BUILD_NUMBER``` in subsequent projects to share the same build number.
+
+[Pipeline job jenkins](pipeline job jenkins.png){:class="img-responsive"}
 
 ### Pros and cons of linking projects
 
