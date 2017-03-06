@@ -171,3 +171,4 @@ The following resources are created by this template:
 ## Architecture Diagram
 <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/iis-2vm-sql-1vm/images/architecture.png" />
 
+[Back to home](README.md)

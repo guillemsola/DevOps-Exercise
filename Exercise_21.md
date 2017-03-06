@@ -93,3 +93,5 @@ Once compiled the solution we could be publishing the NUnit tests results to a l
 We could setup some Github hooks with jenkins so that every time a new commit is done to the project it is automatically integrated. It will be interesting also to add more quality metrics like code static analysis with a tool like [SonarQube](https://www.sonarqube.org/).
 
 Finally with a post build action for succesfull builds we should move the generated build to an artifacts repository for next steps like deployment.
+
+[Back to home](README.md)

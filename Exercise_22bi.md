@@ -91,3 +91,5 @@ After we should execute the setup on the remote machine to perform the silent in
 Alternatively we could have used template machines to speed up the deploment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed. With machines with the OS installed and the IIS or SQL Server pre-installed to whole deployment will be much faster.
 
 I have chosen here the standard powershell tools but other tools for configuration management like Chef will enable many other possibilities to configure particularities on each machine.
+
+[Back to home](README.md)
