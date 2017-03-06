@@ -22,14 +22,12 @@ We have this web application [SocialGoal](https://github.com/asg123/SocialGoal)
 
 1. Set up a Jenkins build **[Solution](Exercise_21.md)**
 2. Whenever we have a successful build, we want to deploy it automatically, following an Infrastructure as code approach.
-    - a. Describe a base architecture with one database server and two IIS servers, in a infrastructureascode definition
-    - b. Using the description in previous point, set up an automatic deployment...
+    - Describe a base architecture with one database server and two IIS servers, in a infrastructureascode definition
+    - Using the description in previous point, set up an automatic deployment...
         1. In our own datacenter (e.g. vCenter, or any other tool of your choice) **[Solution](Exercise_22bi.md)**
         2. In a cloud provider (Amazon, Azure) **[Solution](Exercise_22bii.md)**
-
-> NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
-
-    - c. How would you change the approach if with each deployment we want to upgrade the same running environment instead of removing the existing and creating a new one?
+        > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
+    - How would you change the approach if with each deployment we want to upgrade the same running environment instead of removing the existing and creating a new one?
 
 3. After the deployment, we want to run a selenium test suite that lives in the same repository of the application. How would you implement this?
 
