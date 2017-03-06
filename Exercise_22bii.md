@@ -113,7 +113,7 @@ The template includes some custom sections to execute powershell scripts to depl
 
 The modified azure deploy json template can be found in [this github folder](azure/socialGoalDeploy.json). Notice that, although those scripts can be created by hand, Visual Studio with the Azure tools offers the JSON Outline as a way to simplify and help locate definitions inside the infrastructure definition file.
 
-[Visual Studio JSON Outline](media/VS JSON Outline.png){:class="img-responsive"}
+![Visual Studio JSON Outline](media/VS JSON Outline.png){:class="img-responsive"}
 
 The next script named deployWebApp.ps1 will be the responsible to download and install the websites and will be executed on each web server machine create with the infrastructure definition.
 
