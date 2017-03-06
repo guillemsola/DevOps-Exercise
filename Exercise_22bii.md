@@ -1,8 +1,8 @@
-# 2.2.b.ii Cloud Provider Option
+# Exercise 2.2.b.ii Cloud Provider Option
 
 For the cloud provider I have chosen Azure as it has a lot of resources for .NET applications. To allow the solution to be easily integrated in a CI/CDD environment my choice has been Azure PowerShell cmdlets for ARM that can be installed executing
 
-```
+```powershell
 # Install the Azure Resource Manager modules from the PowerShell Gallery
 Install-Module AzureRM
 ```
@@ -15,12 +15,37 @@ The following are the commands that need to be executed to connect to an Azure a
 Login-AzureRmAccount
 ```
 
-After that we can ask to deploy the whole template. Notice that location of the template can vary depending on the real environment that it will be executed.
+Once logged we can execute the following script to deploy the [template](azure/socialGoalDeploy.json). The script allows to parametrize many of the most paramteres that we may want to change to bootstrap the infrastructure.
 
 ```powershell
-$BasePath = (Get-Item -Path ".\" -Verbose).FullName
-$SecurePwd = ConvertTo-SecureString "passw.1234" -AsPlainText -Force
-New-AzureRmResourceGroupDeployment -Name ASGApp -ResourceGroupName TestASG -TemplateUri $BasePath\_azuredeploy.json -envPrefixName asg -username "asgwebsite" -password $SecurePwd -webSrvVMSize "Standard_DS2" -numberOfWebSrvs "2" -sqlVMSize "Standard_DS2" -storageAccountType "Premium_LRS" -database ""
+#Requires -Version 3.0
+#Requires -Module AzureRM.Resources
+
+Param(
+    [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
+    [string] $ResourceGroupName = 'SocialGoal',
+    [string[ $Password,
+    [string] $VmSize = "Standard_DS2",
+    [string] $NumOfWebSrvs = "2",
+    [string] $TemplateFile = "socialGoalDeploy.json",
+    [string] $ResourceGroupName = "AzureSocialGoal",
+    [string] $username = "asgwebsite",
+    [string] $accountType = "Premium_LRS"
+)
+
+$SecurePwd = ConvertTo-SecureString $Password -AsPlainText -Force
+
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop
+
+New-AzureRmResourceGroupDeployment  -Name ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm')) `
+                                    -ResourceGroupName $ResourceGroupName `
+                                    -TemplateUri $BasePath\_azuredeploy.json `
+                                    -envPrefixName asg `
+                                    -username $username -password $SecurePwd `
+                                    -webSrvVMSize $VmSize -numberOfWebSrvs $NumOfWebSrvs `
+                                    -sqlVMSize $VmSize `
+                                    -storageAccountType $accountType `
+                                    -database ""
 ```
 
 This will be the output received confirming that the infrastructure has been created
@@ -58,44 +83,72 @@ I have started from a [template](https://azure.microsoft.com/en-us/resources/tem
 The template includes some custom sections to execute powershell scripts to deploy the web application and modify the configuration variables. 
 
 ```json
-"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File deployWebApp.ps1 -sqlserver ',variables('sqlPublicIP'))]"
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('webSrvName'), 'config-app']",
+      "apiVersion": "[variables('apiVersion')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/extensions', variables('webSrvName'), copyindex(),'/', variables('vmExtensionName'))]"
+      ],
+      "tags": {
+        "displayName": "config-app"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "http://myStorage/deployWebApp.ps1"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File deployWebApp.ps1 -sqlserver ',variables('sqlPublicIP'))]"
+        }
+      }
+    }
 ```
 
-The whole azure deploy json template can be found in [azure/azuredeploy.json](azure/azuredeploy.json) folder.
+The modified azure deploy json template can be found in [this github folder](azure/socialGoalDeploy.json). Notice that, although those scripts can be created by hand, Visual Studio with the Azure tools offers the JSON Outline as a way to simplify and help locate definitions inside the infrastructure definition file.
 
-A proposal for the deployment script will be something like
+[Visual Studio JSON Outline](media/VS JSON Outline.png){:class="img-responsive"}
+
+The next script named deployWebApp.ps1 will be the responsible to download and install the websites and will be executed on each web server machine create with the infrastructure definition.
 
 ```powershell
-<#
-    .SYNOPSIS
-        Downloads and configures web app
-#>
+# Downloads and configures web app
 
 Param (
-    [parameter(mandatory=$true)]
-    [string]$sqlserver
+    [parameter(mandatory=$true)] [string] $SqlServer,
+    [parameter(mandatory=$true)] [string] $Artifact,
+    [string] $TempDir = "c:\temp",
+    [string] $AppDir = "c:\webApp",
+    [string] $AppSiteName = "SocialGoal"
 )
 
-# Folders
-New-Item -ItemType Directory c:\temp
-New-Item -ItemType Directory c:\webApp
+# Create working folders
+New-Item -ItemType Directory $TempDir
+New-Item -ItemType Directory $AppDir
 
-# Download app
-Invoke-WebRequest  https://myArtifacts/app.zip -OutFile c:\temp\app.zip
+# Download application to install
+Invoke-WebRequest $Artifact -OutFile c:\temp\app.zip
 Expand-Archive C:\temp\app.zip c:\webApp
+Expand-Archive (Join-Path $TempDir -ChildPath $Artifact) $AppDir
 
-# Replace web config
-$webConfig = 'C:\webApp\Web.config'
+# Prepare web config
+$webConfig = Join-Path $AppDir -ChildPath "Web.config"
 $doc = (Get-Content $webConfig) -as [Xml]
 $root = $doc.get_DocumentElement();
-$newCon = $root.connectionStrings.add.connectionString.Replace('Data Source=.\','Data Source=$sqlserver');
+$newCon = $root.connectionStrings.add.connectionString.Replace('Data Source=.\','Data Source=$SqlServer');
 $root.connectionStrings.add.connectionString = $newCon
 $doc.Save($webConfig)
 
 # Configure iis
 Remove-WebSite -Name "Default Web Site"
 Set-ItemProperty IIS:\AppPools\DefaultAppPool\ managedRuntimeVersion ""
-New-Website -Name "ASGWebApp" -Port 80 -PhysicalPath C:\webApp\ -ApplicationPool DefaultAppPool
+New-Website -Name $AppSiteName -Port 80 -PhysicalPath C:\webApp\ -ApplicationPool DefaultAppPool
 & iisreset
 
 ```
@@ -103,7 +156,9 @@ New-Website -Name "ASGWebApp" -Port 80 -PhysicalPath C:\webApp\ -ApplicationPool
 This script will be copied at provisiong time to the azure web instances.
 
 ### Resources
+
 The following resources are created by this template:
+
 - 1 or 2 Windows 2012R2 IIS Web Servers.
 - 1 SQL Server 2014 running on premium or standard storage.
 - 1 virtual network with 2 subnets with NSG rules.

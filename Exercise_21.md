@@ -1,8 +1,10 @@
-# Jenkins Build
+# Exercise 2.1
+
+## Jenkins Build
 
 I'm going to setup a simple jenkins build to compile and run the solution tests in order to generate a project artifact from the [Social Goal Github project](https://github.com/asg123/SocialGoal).
 
-## Setup project
+### Setup project
 
 In the Jenkins server we have to create a new Freestyle project and give it a name. 
 
@@ -12,19 +14,19 @@ With the jenkins github plugins it is possible also to link the job with the git
 
 ![Link to Github](media/SocialGoal Config [Jenkins].png){:class="img-responsive"}
 
-## Clone solution
+### Clone solution
 
 We have to setup the proper git URL so that source code is downloaded before starting the pipeline.
 
 ![Clone source code](media/SocialGoal Repo [Jenkins].png){:class="img-responsive"}
 
-## Restore nuget packages
+### Restore nuget packages
 
 Before being able to build the solution we have to restore the Nuget packages. This can be done with a simple CMD call.
 
 ![Restore Nuget packages](media/SocialGoal Nuget [Jenkins].png){:class="img-responsive"}
 
-## Build Solution
+### Build Solution
 
 With all the solution code and dependencies available we can build the project. First we need to add an MSBuild step.
 
@@ -34,13 +36,13 @@ And configure it to build the solution with the proper MSBuild configuration. Th
 
 ![msbuild](media/SocialGoal MSBuild2 [Jenkins].png){:class="img-responsive"}
 
-## Run Tests
+### Run Tests
 
 In order to verify that the compiled solution is correct we need to run the test projects availables. For this the [Nunit Console](https://github.com/nunit/nunit-console/releases/tag/3.6) has to be available for the Jenkins installation. It can be run with a CMD task.
 
 ![Run Tests](media/SocialGoal NUnit [Jenkins].png){:class="img-responsive"}
 
-## Output
+### Output
 
 With all this we can build the Jenkins project and confirm that the solution is build without issues.
 
@@ -82,7 +84,7 @@ C:\Users\solas\.jenkins\workspace\SocialGoal>exit 0
 Finished: SUCCESS
 ```
 
-## Next Steps
+### Next Steps
 
 Once compiled the solution we could be publishing the NUnit tests results to a location so that we can track history for test evolution. For instance we can use [GHPR](https://github.com/GHPReporter/Ghpr.NUnit) to generate an output report like this.
 

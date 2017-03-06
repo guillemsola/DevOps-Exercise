@@ -1,11 +1,16 @@
-## 1.1.a Repositories and jobs organization 
+# Exercise 1
+
+## Separate release cycle for all three components
+
+### Repositories and jobs organization
+
 As release cycles are not tight each component is a product with it's full life cyle and can be modified and updated on demand. For the source code I will create three different git repositories, one for each component, on whatever git server we have like bitbucket, github, TFS... 
 
 Similarly on Jenkins we are going to create three jobs to perform the different activities needed to produce a validated artifact: build, static analysis, tests, delivery... As the three projects share the  same technology the pipelines will be quite similar. This way every time we want to produce a snapshot or release version we will need just to trigger the jenkins job.
 
 If we want to have CI we will need to integrate Jenkins with the SCM of choice with the proper hook plug-in. In this way, and with a proper branch organization it will be possible to cover the whole development life cycle for each product.
 
-## 1.1.b Dependencies management
+## Dependencies management
 
 As one of the three projects that we own is used as a dependency and has an independent life cycle, I will suggest using Nuget, the standard package manager for .NET technologies, to manage them. There are several ways to share Nuget packages, from a shared folder to commercial solution like JFrog Artifactory. Each solution has it's pros and cons concerning costs, simplicity, reliability... Assuming that we don't have another artifact management system like Nexus or Artifactory I will install one of the open source .NET Foundation solutions.
 
@@ -28,7 +33,9 @@ Where the API key can be extracted from the NuGetGallery for each user.
 
 Once the package is published we will be able to control from the other projects the required version and restore it at build time.
 
-## 1.2.a
+## Same release cycle for all three projects
+
+### Same build number for all components using pipeline jobs
 
 In this scenario we are going to use a jenkins pipeline to provide visualization of the build pipeline and also to provide manual trigger for continuous delivery purposes. In a post build action we will set which project should be build after another. This way is possible to build the different projects all together.
 
@@ -38,7 +45,7 @@ As this is not an explicit requirement and Jenkins offers also tons of different
 
 With this plugin for example, by defining ```SOURCE_BUILD_NUMBER=${BUILD_NUMBER}``` we will be able to use the variable ```$SOURCE_BUILD_NUMBER``` in subsequent projects to share the same build number.
 
-## 1.2.b
+### Pros and cons of linking projects
 
 Git has currently two different mechanism to link different projects as a way to manage project dependencies. Git submodules appeared before and are more appropiate for what is refered as a component-based approach, where individual set of files have their own life cycle. 
 
@@ -54,6 +61,6 @@ Its practical implications are that submodules are not cloned by default and to 
 
 It is required to have a good understanding of the projects life cycle to choose the right approach but we can conlcude that, subtree offer more flexibility to modify linked projects letting the responsibility of not mixing parent and sub-project code in commits to developers. Submodules are more appropiate if we don't plan to modify sub-projects code, the downside is that the majority of programming languages nowadays offers package managers for that.
 
-## 1.3
+## Same release cycle for all components or not
 
 With the above considerations, the decision to go with different release cycles or not shouldn't be a technical but a project life cycle decision. If every time....

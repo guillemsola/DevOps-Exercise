@@ -1,4 +1,6 @@
-# 2.2.b.i Own Datacenter Option
+# Exercise 2
+
+## Own Datacenter Option
 
 For this scenario I have chosen VMWare ESXi using the [VMWare PowerCLI cmdlets](https://www.vmware.com/support/developer/PowerCLI/). This technology allows to interact with ESXi servers from the command line which is a good option to automate deployments from a Jenkins or any other CI pipeline.
 
@@ -32,7 +34,7 @@ Start-VM $machine
 
 This should be put in a loop, together with the configuration files for each type of machine we want to create.
 
-## Webserver machine
+### Webserver machine
 
 We can execute a remote powershell script to enable the desired roles like IIS and then deploy the website.
 
@@ -57,11 +59,11 @@ New-Website -Name "ASGWebApp" -Port 80 -PhysicalPath C:\webApp\ -ApplicationPool
 iisreset
 ```
 
-## SQLServer
+### SQLServer
 
 We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini covering all the details that we want to set-up. We will need to create a remote session as in the web site example but this time to copy the required files and install the SQL server.
 
-```
+```ini
 ; Microsoft SQL Server Configuration file  
 [OPTIONS]  
 ; Specifies a Setup work flow, like INSTALL, UNINSTALL, or UPGRADE.   

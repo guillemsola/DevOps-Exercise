@@ -640,8 +640,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "http://myStorage/deployWebApp.ps1",
-            "http://myStorage/WebApp"
+            "http://myStorage/deployWebApp.ps1"
           ]
         },
         "protectedSettings": {
