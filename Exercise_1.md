@@ -64,3 +64,5 @@ It is required to have a good understanding of the projects life cycle to choose
 ## Same release cycle for all components or not
 
 With the above considerations, the decision to go with different release cycles or not shouldn't be a technical but a project life cycle decision. If every time....
+
+[Back to home](/)
