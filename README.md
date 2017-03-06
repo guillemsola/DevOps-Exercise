@@ -26,6 +26,7 @@ We have this web application [SocialGoal](https://github.com/asg123/SocialGoal)
     - Using the description in previous point, set up an automatic deployment...
         1. In our own datacenter (e.g. vCenter, or any other tool of your choice) **[Solution](Exercise_22bi.md)**
         2. In a cloud provider (Amazon, Azure) **[Solution](Exercise_22bii.md)**
+
         > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
     - How would you change the approach if with each deployment we want to upgrade the same running environment instead of removing the existing and creating a new one?
 
