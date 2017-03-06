@@ -47,7 +47,7 @@ As this is not an explicit requirement and Jenkins offers also tons of different
 
 With this plugin for example, by defining ```SOURCE_BUILD_NUMBER=${BUILD_NUMBER}``` we will be able to use the variable ```$SOURCE_BUILD_NUMBER``` in subsequent projects to share the same build number.
 
-![Pipeline job jenkins](pipeline job jenkins.png){:class="img-responsive"}
+![Pipeline job jenkins](media/pipeline job jenkins.png){:class="img-responsive"}
 
 ### Pros and cons of linking projects
 
