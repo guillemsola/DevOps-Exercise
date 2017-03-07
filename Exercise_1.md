@@ -67,6 +67,6 @@ It is required to have a good understanding of the projects life cycle to choose
 
 ## Same release cycle for all components or not
 
-With the above considerations, the decision to go with different release cycles or not shouldn't be a technical but a project life cycle decision. If every time....
+With the above considerations, the decision to go with different release cycles or not, shouldn't be a technical but a project life cycle decision. That is, if teams work implies modifying files in all the three different projects it may be a symptom that we should use the same version and build cycle for all the components. On the contrary, if different teams work asynchronously on each project so that their delivery cadence is tight to their own backlog we should consider an independent release cycle for each component.
 
 [Back to home](README.md)
