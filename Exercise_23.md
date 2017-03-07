@@ -38,23 +38,26 @@ namespace Automation.Tests.Features
 
 As we can see in this generated code is using the [Visual Studio Unit Testing Framework](https://en.wikipedia.org/wiki/Visual_Studio_Unit_Testing_Framework) that uses `mstest.exe` to execute tests outside Visual Studio.
 
+## Selenium tests execution
+
 With all the requirements to execute we are ready to integrate the automated tests in the Jenkins job.
 
 First we need to install and configure the [MSTest Plugin](https://wiki.jenkins-ci.org/display/JENKINS/MSTest+Plugin) with the path for the mstest executable. The easises way to have mstest is to install visual studio on the machine that will be used to run the build steps.
 
 ![MStest Settings](media/MSTest Jenkins.png){:class="img-responsive"}
 
-With this we can just add another CMD task in our build and deploy pipeline to make it call the Selenium tests after the deployment has been executed. Additionally we may need to adjust some URL or pass some parameters to the test to point to the right environment. There are different ways of telling mstest which tests should it run, for instance we can point to a DLL with the testcontainer attribute.
+With this we can just add another CMD task in our build and deploy pipeline to make it call the Selenium tests after the deployment has been executed. Additionally we may need to confiure some IPs or pass some parameters so the test points to the right environment. There are different ways of telling mstest which tests should it run, for instance we can point to a DLL with the testcontainer attribute.
 
 ```cmd
 MSTest.exe" /testcontainer:"%WORKSPACE%\src\Automation.Tests\bin\Debug\Automation.Tests.dll"
 ```
 
-https://msdn.microsoft.com/en-us/library/ms182489.aspx
-Failed tests can generate screenshots
-rollback
+Full MSTests command line options can be found in the [msdn documentation page](https://msdn.microsoft.com/en-us/library/ms182489.aspx).
 
-```
+Besides running the tests we may want to publish the results of the test to a TFS server or, in case we don't have one we can publish them in HTML with a tool like [Trxer](https://github.com/NivNavick/trxer) so that we can track tests results evolution. 
 
+Failed tests can generate screenshots that we may want to have available together with the tests results. If this is the case we will need to add an extra step to move the generated screenshots, if any, to a shared location for troubleshooting.
+
+Finally if our tests don't meet the acceptance criteria we may want to remove the recently deployed version and rollback to the previous version we had on the server for the web app.
 
 [Back to home](README.md)
