@@ -2,7 +2,7 @@
 
 ## Jenkins Build
 
-I'm going to setup a simple jenkins build to compile and run the solution tests in order to generate a project artifact from the [Social Goal Github project](https://github.com/asg123/SocialGoal).
+I'm going to setup a simple Jenkins build to compile and run the solution tests in order to generate a project artifact from the [Social Goal Github project](https://github.com/asg123/SocialGoal).
 
 ### Setup project
 
@@ -10,7 +10,7 @@ In the Jenkins server we have to create a new Freestyle project and give it a na
 
 ![New project](media/SocialGoal New Item [Jenkins].png){:class="img-responsive"}
 
-With the jenkins github plugins it is possible also to link the job with the github project repository.
+With the Jenkins github plugins it is possible also to link the job with the github project repository.
 
 ![Link to Github](media/SocialGoal Config [Jenkins].png){:class="img-responsive"}
 
@@ -20,7 +20,7 @@ We have to setup the proper git URL so that source code is downloaded before sta
 
 ![Clone source code](media/SocialGoal Repo [Jenkins].png){:class="img-responsive"}
 
-### Restore nuget packages
+### Restore Nuget packages
 
 Before being able to build the solution we have to restore the Nuget packages. This can be done with a simple CMD call.
 
@@ -34,11 +34,11 @@ With all the solution code and dependencies available we can build the project. 
 
 And configure it to build the solution with the proper MSBuild configuration. The configuration has to be set in the Jenkins plugin settings page to use a proper MSBuild executable, in this case I'm using `C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\`.
 
-![msbuild](media/SocialGoal MSBuild2 [Jenkins].png){:class="img-responsive"}
+![MSbuild](media/SocialGoal MSBuild2 [Jenkins].png){:class="img-responsive"}
 
 ### Run Tests
 
-In order to verify that the compiled solution is correct we need to run the test projects availables. For this the [Nunit Console](https://github.com/nunit/nunit-console/releases/tag/3.6) has to be available for the Jenkins installation. It can be run with a CMD task.
+In order to verify that the compiled solution is correct we need to run the test projects available. For this the [Nunit Console](https://github.com/nunit/nunit-console/releases/tag/3.6) has to be available for the Jenkins installation. It can be run with a CMD task.
 
 ![Run Tests](media/SocialGoal NUnit [Jenkins].png){:class="img-responsive"}
 
@@ -90,8 +90,8 @@ Once compiled the solution we could be publishing the NUnit tests results to a l
 
 ![Report page](media/GHP Report Run Page.png){:class="img-responsive"}
 
-We could setup some Github hooks with jenkins so that every time a new commit is done to the project it is automatically integrated. It will be interesting also to add more quality metrics like code static analysis with a tool like [SonarQube](https://www.sonarqube.org/).
+We could setup some Github hooks with Jenkins so that every time a new commit is done to the project it is automatically integrated. It will be interesting also to add more quality metrics like code static analysis with a tool like [SonarQube](https://www.sonarqube.org/).
 
-Finally with a post build action for succesfull builds we should move the generated build to an artifacts repository for next steps like deployment.
+Finally with a post build action for successful builds we should move the generated build to an artifacts repository for next steps like deployment.
 
 [Back to home](README.md)

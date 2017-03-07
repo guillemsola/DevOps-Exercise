@@ -1,6 +1,6 @@
 # Exercise 2.2.b.ii Cloud Provider Option
 
-For the cloud provider I have chosen Azure as it has a lot of resources for .NET applications. To allow the solution to be easily integrated in a CI/CDD environment my choice has been Azure PowerShell cmdlets for ARM that can be installed executing
+For the cloud provider I have chosen Azure as it has a lot of resources for .NET applications. To allow the solution to be easily integrated in a CI/CDD environment my choice has been Azure PowerShell Cmdlets for ARM that can be installed executing
 
 ```powershell
 # Install the Azure Resource Manager modules from the PowerShell Gallery
@@ -9,13 +9,13 @@ Install-Module AzureRM
 
 >Azure Resource Manager (ARM) is a service that allows to manage all the resources that you can create in Azure. JSON files can be used to describe the required infrastructure. [basic instructions](https://docs.microsoft.com/en-us/powershell/azureps-cmdlets-docs/)
 
-The following are the commands that need to be executed to connect to an Azure account and that have to be integrated in a powershell script that can be triggered once the build process is complete from the jenkins build.
+The following are the commands that need to be executed to connect to an Azure account and that have to be integrated in a PowerShell script that can be triggered once the build process is complete from the Jenkins build.
 
 ```powershell
 Login-AzureRmAccount
 ```
 
-Once logged we can execute the following script to deploy the [template](azure/socialGoalDeploy.json). The script allows to parametrize many of the most paramteres that we may want to change to bootstrap the infrastructure.
+Once logged we can execute the following script to deploy the [template](azure/socialGoalDeploy.json). The script allows to parametrize many of the most parameters that we may want to change to bootstrap the infrastructure.
 
 ```powershell
 #Requires -Version 3.0
@@ -78,9 +78,9 @@ And in Azure control panel we can confirm that the machines have been created an
 
 ## Template Details
 
-I have started from a [template](https://azure.microsoft.com/en-us/resources/templates/iis-2vm-sql-1vm/) that creates two Windows Server 2012R2 VM(s) with IIS configured using DSC. It also installs one SQL Server 2014 standard edition VM, a VNET with two subnets, NSG, load balancer, NATing and probing rules. One of the best things about using modern infrastructure providers is the amount of resources available to start a project from a sample.
+I have started from a [template](https://azure.microsoft.com/en-us/resources/templates/iis-2vm-sql-1vm/) that creates two Windows Server 2012R2 VM(s) with IIS configured using DSC. It also installs one SQL Server 2014 standard edition VM, a VNET with two subnets, NSG, load balancer, NATing and probing rules. Notice that one of the best things about using modern infrastructure providers is the amount of resources available to start a project from a sample.
 
-The template includes some custom sections to execute powershell scripts to deploy the web application and modify the configuration variables. 
+The template has been modified to include some custom sections to execute PowerShell scripts to deploy the web application and modify the configuration variables.
 
 ```json
     {
@@ -111,11 +111,11 @@ The template includes some custom sections to execute powershell scripts to depl
     }
 ```
 
-The modified azure deploy json template can be found in [this github folder](azure/socialGoalDeploy.json). Notice that, although those scripts can be created by hand, Visual Studio with the Azure tools offers the JSON Outline as a way to simplify and help locate definitions inside the infrastructure definition file.
+The modified azure deploy JSON template can be found in [this github folder](azure/socialGoalDeploy.json). Notice that, although those scripts can be created by hand, Visual Studio with the Azure tools offers the JSON Outline as a way to simplify and help locate definitions inside the infrastructure definition file.
 
 ![Visual Studio JSON Outline](media/VS JSON Outline.png){:class="img-responsive"}
 
-The next script named deployWebApp.ps1 will be the responsible to download and install the websites and will be executed on each web server machine create with the infrastructure definition.
+The next script named `deployWebApp.ps1` will be the responsible to download and install the websites and will be executed on each web server machine create with the infrastructure definition.
 
 ```powershell
 # Downloads and configures web app
@@ -153,7 +153,7 @@ New-Website -Name $AppSiteName -Port 80 -PhysicalPath C:\webApp\ -ApplicationPoo
 
 ```
 
-This script will be copied at provisiong time to the azure web instances.
+This script will be copied at provisioning time to the azure web instances.
 
 ### Resources
 

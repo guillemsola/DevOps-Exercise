@@ -2,7 +2,7 @@
 
 ## Own Datacenter Option
 
-For this scenario I have chosen VMWare ESXi using the [VMWare PowerCLI cmdlets](https://www.vmware.com/support/developer/PowerCLI/). This technology allows to interact with ESXi servers from the command line which is a good option to automate deployments from a Jenkins or any other CI pipeline.
+For this scenario I have chosen VMWare ESXi using the [VMWare PowerCLI Cmdlets](https://www.vmware.com/support/developer/PowerCLI/). This technology allows to interact with ESXi servers from the command line which is a good option to automate deployments from a Jenkins or any other CI pipeline.
 
 ```powershell
 # Connect
@@ -36,7 +36,7 @@ This should be put in a loop, together with the configuration files for each typ
 
 ### Webserver machine
 
-We can execute a remote powershell script to enable the desired roles like IIS and then deploy the website.
+We can execute a remote PowerShell script to enable the desired roles like IIS and then deploy the website.
 
 ```powershell
 # Setup remote session
@@ -64,16 +64,16 @@ iisreset
 We will need to perform a silent installation of the SQL server instance. SQL server image has to be mounted in the machine and then copy a ConfigurationFile.ini covering all the details that we want to set-up. We will need to create a remote session as in the web site example but this time to copy the required files and install the SQL server.
 
 ```ini
-; Microsoft SQL Server Configuration file  
-[OPTIONS]  
-; Specifies a Setup work flow, like INSTALL, UNINSTALL, or UPGRADE.   
-; This is a required parameter.   
-ACTION="Install"  
-; Specifies features to install, uninstall, or upgrade.   
-; The list of top-level features include SQL, AS, RS, IS, and Tools.   
-; The SQL feature will install the database engine, replication, and full-text.   
-; The Tools feature will install Management Tools, Books online,   
-; SQL Server Data Tools, and other shared components.   
+; Microsoft SQL Server Configuration file
+[OPTIONS]
+; Specifies a Setup work flow, like INSTALL, UNINSTALL, or UPGRADE.
+; This is a required parameter.
+ACTION="Install"
+; Specifies features to install, uninstall, or upgrade.
+; The list of top-level features include SQL, AS, RS, IS, and Tools.
+; The SQL feature will install the database engine, replication, and full-text.
+; The Tools feature will install Management Tools, Books online,
+; SQL Server Data Tools, and other shared components.
 FEATURES=SQL,Tools
 QUIET="True"
 UpdateEnabled="False"
@@ -88,8 +88,8 @@ After we should execute the setup on the remote machine to perform the silent in
 
 ## Notes
 
-Alternatively we could have used template machines to speed up the deploment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed. With machines with the OS installed and the IIS or SQL Server pre-installed to whole deployment will be much faster.
+Alternatively we could have used template machines to speed up the deployment process. The above procedures could be adapted to create a base templates machines so that those could be recreated from scratch when needed. With machines with the OS installed and the IIS or SQL Server pre-installed to whole deployment will be much faster.
 
-I have chosen here the standard powershell tools but other tools for configuration management like Chef will enable many other possibilities to configure particularities on each machine.
+I have chosen here the standard PowerShell tools but other tools for configuration management like Chef will enable many other possibilities to configure particularities on each machine.
 
 [Back to home](README.md)

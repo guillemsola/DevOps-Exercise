@@ -4,9 +4,9 @@
 
 ### Repositories and jobs organization
 
-As release cycles are not tight each component is a product with it's full life cyle and can be modified and updated on demand. For the source code I will create three different git repositories, one for each component, on whatever git server we have like bitbucket, github, TFS... 
+As release cycles are not tight each component is a product with it's full life cycle and can be modified and updated on demand. For the source code I will create three different git repositories, one for each component, on whatever git server we have like Bitbucket, github, TFS... 
 
-Similarly on Jenkins we are going to create three jobs to perform the different activities needed to produce a validated artifact: build, static analysis, tests, delivery... As the three projects share the  same technology the pipelines will be quite similar. This way every time we want to produce a snapshot or release version we will need just to trigger the jenkins job.
+Similarly on Jenkins we are going to create three jobs to perform the different activities needed to produce a validated artifact: build, static analysis, tests, delivery... As the three projects share the  same technology the pipelines will be quite similar. This way every time we want to produce a snapshot or release version we will need just to trigger the Jenkins job.
 
 If we want to have CI we will need to integrate Jenkins with the SCM of choice with the proper hook plug-in. In this way, and with a proper branch organization it will be possible to cover the whole development life cycle for each product.
 
@@ -24,7 +24,7 @@ I personally would choose the [NuGetGallery](https://github.com/NuGet/NuGetGalle
 
 ![Private Nuget Gallery](media/Private Nuget Gallery.png){:class="img-responsive"}
 
-With a proper Nuget package repository installed the next step is to add a push step on the Jenkins pipeline. For this basically what we need is to add a CMD step in jenkins to pack and push to our Nuget repository.
+With a proper Nuget package repository installed the next step is to add a push step on the Jenkins pipeline. For this basically what we need is to add a CMD step in Jenkins to pack and push to our Nuget repository.
 
 ```powershell
 NuGet.exe pack .\src\MySharedLibrary.csproj
@@ -39,19 +39,19 @@ Once the package is published we will be able to control from the other projects
 
 ### Same build number for all components using pipeline jobs
 
-In this scenario we are going to use a jenkins pipeline to provide visualization of the build pipeline and also to provide manual trigger for continuous delivery purposes. In a post build action we will set which project should be build after another. This way is possible to build the different projects all together.
+In this scenario we are going to use a Jenkins pipeline to provide visualization of the build pipeline and also to provide manual trigger for continuous delivery purposes. In a post build action we will set which project should be build after another. This way is possible to build the different projects all together.
 
-As we want to share the same build number across all the three projects we need a way to share this across all the different jobs. There are several ways to implement this solution. We have to decide whether we want this responsibility to be for jenkins or not, for instance we can set an external API endpoint, file and use these as a seed where we can update or read the build number. This solution will be good if we want to keep incremental build numbers even if we build a single project or all them.
+As we want to share the same build number across all the three projects we need a way to share this across all the different jobs. There are several ways to implement this solution. We have to decide whether we want this responsibility to be for Jenkins or not, for instance we can set an external API endpoint, file and use these as a seed where we can update or read the build number. This solution will be good if we want to keep incremental build numbers even if we build a single project or all them.
 
 As this is not an explicit requirement and Jenkins offers also tons of different plugins, whe can use the [Parameterized Trigger Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin) to solve this problem within Jenkins itself.
 
 With this plugin for example, by defining ```SOURCE_BUILD_NUMBER=${BUILD_NUMBER}``` we will be able to use the variable ```$SOURCE_BUILD_NUMBER``` in subsequent projects to share the same build number.
 
-![Pipeline job jenkins](media/pipeline job jenkins.png){:class="img-responsive"}
+![Pipeline job Jenkins](media/pipeline job jenkins.png){:class="img-responsive"}
 
 ### Pros and cons of linking projects
 
-Git has currently two different mechanism to link different projects as a way to manage project dependencies. Git submodules appeared before and are more appropiate for what is refered as a component-based approach, where individual set of files have their own life cycle. 
+Git has currently two different mechanism to link different projects as a way to manage project dependencies. Git submodules appeared before and are more appropriate for what is referred as a component-based approach, where individual set of files have their own life cycle. 
 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;https://raw.githubusercontent.com/guillemsola/DevOps-Exercise/master/resources/submodule.xml&quot;,&quot;url&quot;:&quot;https://raw.githubusercontent.com/guillemsola/DevOps-Exercise/master/resources/submodule.xml&quot;}"></div>
 <script type="text/javascript" src="https://www.draw.io/embed2.js?&fetch=https%3A%2F%2Fraw.githubusercontent.com%2Fguillemsola%2FDevOps-Exercise%2Fmaster%2Fresources%2Fsubmodule.xml"></script>
@@ -61,9 +61,9 @@ Git subtree is newer and more appropiate for a system-based approach, where the 
 <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;toolbar&quot;:&quot;zoom layers lightbox&quot;,&quot;edit&quot;:&quot;https://raw.githubusercontent.com/guillemsola/DevOps-Exercise/master/resources/submodule.xml&quot;,&quot;url&quot;:&quot;https://raw.githubusercontent.com/guillemsola/DevOps-Exercise/master/resources/submodule.xml&quot;}"></div>
 <script type="text/javascript" src="https://www.draw.io/embed2.js?&fetch=https%3A%2F%2Fraw.githubusercontent.com%2Fguillemsola%2FDevOps-Exercise%2Fmaster%2Fresources%2Fsubmodule.xml"></script>
 
-Its practical implications are that submodules are not cloned by default and to update them you will need to ```git submodule update```. Also, merging is not really easy with submodules. On the other hand, subtrees get a similar result to submodules, but storing the files in the main repository and merging in changes directly to that repository. That has an important caveat, all of your subproject files are present in the parent repository. Changes made to subprojects have to explicitly be commited its origin if required to be shared across different projects.
+Its practical implications are that submodules are not cloned by default and to update them you will need to ```git submodule update```. Also, merging is not really easy with submodules. On the other hand, subtrees get a similar result to submodules, but storing the files in the main repository and merging in changes directly to that repository. That has an important caveat, all of your subproject files are present in the parent repository. Changes made to sub-projects have to explicitly be committed its origin if required to be shared across different projects.
 
-It is required to have a good understanding of the projects life cycle to choose the right approach but we can conlcude that, subtree offer more flexibility to modify linked projects letting the responsibility of not mixing parent and sub-project code in commits to developers. Submodules are more appropiate if we don't plan to modify sub-projects code, the downside is that the majority of programming languages nowadays offers package managers for that.
+It is required to have a good understanding of the projects life cycle to choose the right approach but we can conclude that, subtree offer more flexibility to modify linked projects letting the responsibility of not mixing parent and sub-project code in commits to developers. Submodules are more appropriate if we don't plan to modify sub-projects code, the downside is that the majority of programming languages nowadays offers package managers for that.
 
 ## Same release cycle for all components or not
 
