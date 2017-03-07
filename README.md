@@ -27,7 +27,7 @@ We have this web application [SocialGoal](https://github.com/asg123/SocialGoal)
         1. In our own datacenter (e.g. vCenter, or any other tool of your choice) **[Solution](Exercise_22bi.md)**
         2. In a cloud provider (Amazon, Azure) **[Solution](Exercise_22bii.md)**
 
-        > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
+        > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...) **[Solution](Exercise_22biii.md)**
     - How would you change the approach if with each deployment we want to upgrade the same running environment instead of removing the existing and creating a new one? **[Solution](Exercise_22c.md)**
 
 3. After the deployment, we want to run a selenium test suite that lives in the same repository of the application. How would you implement this? **[Solution](Exercise_23.md)**
