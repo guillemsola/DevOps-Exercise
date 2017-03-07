@@ -2,7 +2,7 @@
 
 ## Base Architecture Definition
 
-SocialGoal is an application build with ASP.NET MVC 5 with SQL Server as back-end database. That means that we will need to use windows servers for the ASP.NET technology and the SQL Server. There is an initiative to [Move SQL server to Linux](https://www.microsoft.com/en-us/sql-server/sql-server-vnext-including-linux) but is still a work in progress. We have also another requirement where we need two IIS servers.
+SocialGoal is an application build with the ASP.NET MVC 5 framework that uses the SQL Server as back-end database. That means that we will need to use windows servers for the ASP.NET technology and the SQL Server. There is an initiative to [Move SQL server to Linux](https://www.microsoft.com/en-us/sql-server/sql-server-vnext-including-linux) but is still a work in progress. We have also another requirement where we need two IIS servers and those are currently only available in windows.
 
 AS we don't have specific details for the number of concurrent request we are going to receive we are not going to spend too many time in server details. Ideally there should be some kind of load balancing to distribute traffic to the two web servers. As we don't have specific hard disk requirements we are going to assume that the standard server disk is enough just to host the web site. For the database we are going to use another dedicated server for simplicity and, for instance, to set it up in another datalan if additional security measures are required.
 

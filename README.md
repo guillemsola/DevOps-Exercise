@@ -30,7 +30,7 @@ We have this web application [SocialGoal](https://github.com/asg123/SocialGoal)
         > NOTE: In both scenarios, you can take advantage of containers technology (e.g. Docker, Kubernetes...)
     - How would you change the approach if with each deployment we want to upgrade the same running environment instead of removing the existing and creating a new one? **[Solution](Exercise_22c.md)**
 
-3. After the deployment, we want to run a selenium test suite that lives in the same repository of the application. How would you implement this?
+3. After the deployment, we want to run a selenium test suite that lives in the same repository of the application. How would you implement this? **[Solution](Exercise_23.md)**
 
 **IMPORTANT!**
 
