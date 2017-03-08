@@ -24,19 +24,37 @@ EXPOSE 8000
 ADD content/ /site
 ```
 
-And a compose file to orchestrate the whole deployment.
+And a compose file to orchestrate the whole deployment including a proxy to balance requests and the networks definition to wire them internally.
 
 ```yml
 version: '2'
 services:
+  haproxy:
+    image: tutum/haproxy
+    depends_on:
+      - web
+      - sqlserver
+    ports:
+      – "80:80"
+    networks:
+      - webnet
   web:
     build: .
-    ports:
-    - "8000:8000"
-    links:
-    - sqlserver
+    depends_on:
+      - sqlserver
+    networks:
+      - webnet
+      - sqlnet
   sqlserver:
     image: microsoft/mssql-server-windows
-``` 
+    networks:
+      - sqlnet
+
+networks:
+  webnet:
+  sqlnet:
+```
+
+We can then just launch our system with `docker compose up`. As I'm using Docker compose v2 here we can scale our web server with two instances with `docker-compose scale web=2`.
 
 [Back to home](README.md)
