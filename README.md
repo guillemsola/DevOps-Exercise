@@ -14,7 +14,7 @@ project
 │      [draw.io](http://draw.io) diagrams
 │
 └─── azure
-       azure resource created
+       custom azure resources
 ```
 
 Below there is the exercise formulation and close to each topic there is a link to an specific page with the solution.
