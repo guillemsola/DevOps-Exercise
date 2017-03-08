@@ -2,7 +2,7 @@
 
 ## Using Containers
 
-Containers introduce a lightweight form to define infrastructure and application deployment. In windows we have recently, since Windows 2016, official support for Docker technology. This would be a great oportunity to define and run a multi-container Docker application with Docker Compose. Compose is great for development, testing, and staging environments, as well as CI workflows as it makes really easy to declaratively define a `docker-compose.yml` to create an isolated environment.
+Containers introduce a lightweight form to define infrastructure and application deployment. In windows we have recently, since Windows 2016, official support for Docker technology. This would be a great opportunity to define and run a multi-container Docker application with Docker Compose. Compose is great for development, testing, and staging environments, as well as CI workflows as it makes really easy to declaratively define a `docker-compose.yml` to create an isolated environment.
 
 We will need a Docker Engine or even a Docker cluster where we can deploy this definition. Jenkins has also nice Docker plugins to communicate with a Docker API to create images and deploy them to an Engine or to the public Docker hub or a private Docker trusted registry.
 
@@ -17,9 +17,9 @@ RUN mkdir C:\site
 
 RUN powershell -NoProfile -Command \
     Import-module IISAdministration; \
-    New-IISSite -Name "Site" -PhysicalPath C:\site -BindingInformation "*:8000:"
+    New-IISSite -Name "Site" -PhysicalPath C:\site -BindingInformation "*:80:"
 
-EXPOSE 8000
+EXPOSE 80
 
 ADD content/ /site
 ```
