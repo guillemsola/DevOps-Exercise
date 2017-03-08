@@ -1,6 +1,23 @@
 # DevOps Exercise
 
-This exercise can be seen with [Github pages here](https://guillemsola.github.io/DevOps-Exercise/)
+This exercise has been created in a [github repository](https://github.com/guillemsola/DevOps-Exercise). In the repository there are all the files used to create a final nicer version using [Jekyll github pages](https://guillemsola.github.io/DevOps-Exercise/).
+
+```
+project
+│   README.md
+│   Solution pages in markdown
+│
+└─── media
+│      Linked images
+│
+└─── resources
+│      [draw.io](http://draw.io) diagrams
+│
+└─── azure
+       azure resource created
+```
+
+Below there is the exercise formulation and close to each topic there is a link to an specific page with the solution.
 
 ## Exercise 1
 
